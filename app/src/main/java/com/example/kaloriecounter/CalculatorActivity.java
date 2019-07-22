@@ -1,10 +1,12 @@
 package com.example.kaloriecounter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,7 +87,24 @@ public class CalculatorActivity extends AppCompatActivity {
     }
 
     public void saveEntry(View view) {
+        EditText foodEditText = findViewById(R.id.foodCalorieCountText);
+        EditText exerciseEditText = findViewById(R.id.exerciseCalorieCountText);
+        Spinner foodType = findViewById(R.id.foodCategorySpinner);
+        Spinner exerciseType = findViewById(R.id.exerciseCategorySpinner);
+        TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
+        TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
+        TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
 
+        String entryText = "TODO";
+        Diary.addEntry(entryText);
+
+        Toast.makeText(this, "Added Entry!", Toast.LENGTH_SHORT).show();
+
+        Intent viewEntry = new Intent(getApplicationContext(), DiaryEntryActivity.class);
+        viewEntry.putExtra("entry_index", Diary.getDiaryEntries().indexOf(entryText));
+        startActivity(viewEntry);
+
+        finish();
     }
 
 }

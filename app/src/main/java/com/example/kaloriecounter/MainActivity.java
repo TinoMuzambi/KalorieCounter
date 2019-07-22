@@ -1,6 +1,8 @@
 package com.example.kaloriecounter;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,10 +10,17 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 public class MainActivity extends AppCompatActivity {
+    public SharedPreferences.Editor entryEditor;
+    public EntryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +28,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Retrieving existing notes
+        SharedPreferences sharedPrefs = getSharedPreferences("diary_entries", Activity.MODE_PRIVATE);
+        entryEditor = sharedPrefs.edit();
+
+        // The brackets are a default value if the key notes can't be found
+        String entriesJSONString = sharedPrefs.getString("entries", "[]");
+
+        if (Diary.diaryEntries == null) {
+            processJsonEntries(entriesJSONString);
+        }
+
+        RecyclerView itemListView = findViewById(R.id.itemTextView);
+        adapter = new EntryAdapter();
+        itemListView.setAdapter(adapter);
+        itemListView.setLayoutManager(new LinearLayoutManager(this));
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -28,6 +53,36 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(calculator);
             }
         });
+    }
+
+    private void processJsonEntries(String entriesJSONString) {
+        JSONArray entriesJSON = null;
+
+        try {
+            entriesJSON = new JSONArray(entriesJSONString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < entriesJSON.length(); i++) {
+            try {
+                Diary.addEntry((String) entriesJSON.get(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void saveEntries() {
+        JSONArray jsonEntryList = new JSONArray(Diary.getDiaryEntries());
+        entryEditor.putString("entries", jsonEntryList.toString());
+        entryEditor.apply();
+    }
+
+    @Override
+    public void finish() {
+        saveEntries();
+        super.finish();
     }
 
     @Override
