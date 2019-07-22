@@ -7,9 +7,12 @@
     <string name="nett_total">Nett Total:</string>
     <string name="exercise_total">Exercise Total:</string>
     <string name="food_total">Food Total:</string>
-    <string name="kalorie_label">Enter a kalorie estimate (kilojoule)</string>
+    <string name="kalorie_label">Enter a calorie estimate (kilojoule)</string>
     <string name="food_label">Food:</string>
     <string name="exercise_label">Exercise:</string>
     <string name="kalorie_hint">1000</string>
-    <string name="update_food_button">Update Food</string>
+    <string name="save_entry_button">Save Entry</string>
+    <string name="food_category_prompt">Pick a food category:</string>
+    <string name="exercise_category_prompt">Pick a exercise category:</string>
+    <string name="food">Food</string>
 </resources>

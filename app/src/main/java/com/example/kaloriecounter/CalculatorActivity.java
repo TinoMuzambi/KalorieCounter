@@ -1,6 +1,8 @@
 package com.example.kaloriecounter;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,6 +24,9 @@ public class CalculatorActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState (Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    public void saveEntry(View view) {
     }
 
 }
