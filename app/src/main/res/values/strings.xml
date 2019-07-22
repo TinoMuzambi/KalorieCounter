@@ -15,4 +15,9 @@
     <string name="food_category_prompt">Pick a food category:</string>
     <string name="exercise_category_prompt">Pick a exercise category:</string>
     <string name="food">Food</string>
+    <string name="total_label">Totals</string>
+    <string name="exercise">Exercise</string>
+    <string name="nett">Nett</string>
+    <string name="sample_total">1500</string>
+    <string name="tick_description">Green tick</string>
 </resources>
