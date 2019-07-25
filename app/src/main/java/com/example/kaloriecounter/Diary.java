@@ -29,7 +29,7 @@ public class Diary {
     }
 
     static void clearEntries() {
-        if (diaryEntries == null) {
+        if (diaryEntries != null) {
             diaryEntries.clear();
         }
     }

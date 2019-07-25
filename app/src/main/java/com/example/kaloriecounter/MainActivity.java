@@ -79,10 +79,20 @@ public class MainActivity extends AppCompatActivity {
         entryEditor.apply();
     }
 
+    public void clearEntries(View view) {
+        Diary.clearEntries();
+    }
+
     @Override
     public void finish() {
         saveEntries();
         super.finish();
+    }
+
+    @Override
+    protected void onStart() {
+        saveEntries();
+        super.onStart();
     }
 
     @Override
