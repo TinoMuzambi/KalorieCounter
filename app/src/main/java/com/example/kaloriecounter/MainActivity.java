@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < entriesJSON.length(); i++) {
             try {
-                Diary.addEntry((String) entriesJSON.get(i));
+                Gson gson = new Gson();
+                DiaryEntry entry = gson.fromJson((String) entriesJSON.get(i), DiaryEntry.class);
+                Diary.addEntry(entry);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

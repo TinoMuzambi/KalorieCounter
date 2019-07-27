@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 public class Diary {
 
-    static ArrayList<String> diaryEntries;
+    static ArrayList<DiaryEntry> diaryEntries;
 
-    static ArrayList<String> getDiaryEntries() {
+    static ArrayList<DiaryEntry> getDiaryEntries() {
         if (diaryEntries == null) {
             diaryEntries = new ArrayList<>();
         }
         return diaryEntries;
     }
 
-    static void addEntry(String entry) {
+    static void addEntry(DiaryEntry entry) {
         if (diaryEntries == null) {
             diaryEntries = new ArrayList<>();
         }

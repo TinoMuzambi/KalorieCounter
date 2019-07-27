@@ -26,7 +26,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull EntryAdapter.ViewHolder holder, int position) {
-        String entry = Diary.getDiaryEntries().get(position);
+        String entry = (String) Diary.getDiaryEntries().get(position).mainToString(); //Extract relevant data.
 
         TextView entryRowTextView = holder.entryItem;
         entryRowTextView.setText(entry);
