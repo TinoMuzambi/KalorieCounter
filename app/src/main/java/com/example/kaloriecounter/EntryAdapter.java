@@ -29,7 +29,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
         String entry = Diary.getDiaryEntries().get(position);
 
         TextView entryRowTextView = holder.entryItem;
-        entryRowTextView.setText(entry);
+        entryRowTextView.setText(entry); //This is where I choose.
     }
 
     @Override

@@ -87,15 +87,20 @@ public class CalculatorActivity extends AppCompatActivity {
     }
 
     public void saveEntry(View view) {
-//        EditText foodEditText = findViewById(R.id.foodCalorieCountText);
-//        EditText exerciseEditText = findViewById(R.id.exerciseCalorieCountText);
-//        Spinner foodType = findViewById(R.id.foodCategorySpinner);
-//        Spinner exerciseType = findViewById(R.id.exerciseCategorySpinner);
-//        TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
-//        TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
-//        TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
+        EditText foodEditText = findViewById(R.id.foodCalorieCountText);
+        EditText exerciseEditText = findViewById(R.id.exerciseCalorieCountText);
+        Spinner foodType = findViewById(R.id.foodCategorySpinner);
+        Spinner exerciseType = findViewById(R.id.exerciseCategorySpinner);
+        TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
+        TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
+        TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
 
         String entryText = "TODO";
+        DiaryEntry diaryEntry = new DiaryEntry(Integer.valueOf(foodTotal.getText().toString()),
+                Integer.valueOf(exerciseTotal.getText().toString()),
+                Integer.valueOf(nettTotal.getText().toString()),
+                foodType.getSelectedItem().toString(),
+                exerciseType.getSelectedItem().toString());
         Diary.addEntry(entryText);
 
         Toast.makeText(this, "Added Entry!", Toast.LENGTH_SHORT).show();

@@ -2,7 +2,7 @@ package com.example.kaloriecounter;
 
 import java.util.ArrayList;
 
-public class Diary {
+class Diary {
 
     static ArrayList<String> diaryEntries;
 

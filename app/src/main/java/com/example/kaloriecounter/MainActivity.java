@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,6 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import static android.util.Log.d;
 
 public class MainActivity extends AppCompatActivity {
     public SharedPreferences.Editor entryEditor;
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void processJsonEntries(String entriesJSONString) {
         JSONArray entriesJSON = null;
+        d("Tino", entriesJSONString);
 
         try {
             entriesJSON = new JSONArray(entriesJSONString);
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < entriesJSON.length(); i++) {
             try {
+                d("Tino", (String) entriesJSON.get(i));
                 Diary.addEntry((String) entriesJSON.get(i));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -81,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void clearEntries(View view) {
         Diary.clearEntries();
+        Toast.makeText(this, "Cleared entries!", Toast.LENGTH_SHORT).show();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -92,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         saveEntries();
+        adapter.notifyDataSetChanged();
         super.onStart();
     }
 
