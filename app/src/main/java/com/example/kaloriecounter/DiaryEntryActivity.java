@@ -15,30 +15,23 @@ import static android.util.Log.d;
 
 public class DiaryEntryActivity extends AppCompatActivity {
 
+    TextView text;
+    int pos;
+    FloatingActionButton next, prev;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_entry);
         Intent intent = getIntent();
-        TextView text = findViewById(R.id.detailsTextView);
+        text = findViewById(R.id.detailsTextView);
         Gson gson = new Gson();
-        FloatingActionButton next = findViewById(R.id.nextButton);
-        FloatingActionButton prev = findViewById(R.id.previousButton);
+        next = findViewById(R.id.nextButton);
+        prev = findViewById(R.id.previousButton);
+
         try {
-            d("Tino", intent.getStringExtra("entry_index"));
-            int pos = Integer.valueOf(intent.getStringExtra("entry_index"));
-            if (pos == Diary.getSize()) {
-                next.setEnabled(false);
-            }
-            else {
-                next.setEnabled(true);
-            }
-            if (pos == 0) {
-                prev.setEnabled(false);
-            }
-            else {
-                prev.setEnabled(true);
-            }
+            pos = Integer.valueOf(intent.getStringExtra("entry_index"));
+
             String entry = Diary.getDiaryEntries().get(pos);
             String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString();
             text.setText(entryString);
@@ -49,23 +42,57 @@ public class DiaryEntryActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Launches the calculator activity.
+     * @param view view.
+     */
     public void launchCalculator(View view) {
         Intent calculator = new Intent(getApplicationContext(), CalculatorActivity.class);
         calculator.setFlags(calculator.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(calculator);
     }
 
+    /**
+     * Launches the overview activity.
+     * @param view view.
+     */
     public void goHome(View view) {
         Intent home = new Intent(getApplicationContext(), MainActivity.class);
         home.setFlags(home.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(home);
     }
 
+    /**
+     * Proceeds to the next entry in the diary. Displays a message if this isn't possible.
+     * @param view view.
+     */
     public void nextEntry(View view) {
-
+        Gson gson = new Gson();
+        if (pos < Diary.getSize() - 1) {
+            pos++;
+            String entry = Diary.getDiaryEntries().get(pos);
+            String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString();
+            text.setText(entryString);
+        }
+        else {
+            Toast.makeText(this, "This is the last entry!", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    /**
+     * Proceeds to the previous entry in the diary. Displays a message if this isn't possible.
+     * @param view view.
+     */
     public void prevEntry(View view) {
-
+        Gson gson = new Gson();
+        if (pos > 0) {
+            pos--;
+            String entry = Diary.getDiaryEntries().get(pos);
+            String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString();
+            text.setText(entryString);
+        }
+        else {
+            Toast.makeText(this, "This is the first entry!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

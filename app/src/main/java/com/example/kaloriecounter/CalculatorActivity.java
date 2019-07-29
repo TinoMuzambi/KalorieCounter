@@ -2,8 +2,6 @@ package com.example.kaloriecounter;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,6 +16,8 @@ import com.google.gson.Gson;
 import static android.util.Log.d;
 
 public class CalculatorActivity extends AppCompatActivity {
+    static int avg;
+    static int sum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +28,27 @@ public class CalculatorActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Initialising text views.
         TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
         TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
         TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
-
         foodTotal.setText("0");
         exerciseTotal.setText("0");
         nettTotal.setText("0");
+
+        MainActivity.entryEditor = MainActivity.sharedPrefs.edit();
+
     }
 
-    // This and the onSaveInstanceState method below handle persisting state when the activity
-    // is closed suddenly or by the user
     @Override
     protected void onSaveInstanceState (Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 
+    /**
+     * Update the food total.
+     * @param view view.
+     */
     public void updateFood(View view) {
         EditText foodEditText = findViewById(R.id.foodCalorieCountText);
         TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
@@ -66,6 +71,10 @@ public class CalculatorActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Update the exercise total.
+     * @param view view.
+     */
     public void updateExercise(View view) {
         EditText exerciseEditText = findViewById(R.id.exerciseCalorieCountText);
         TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
@@ -88,9 +97,11 @@ public class CalculatorActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Save an entry to the Diary.
+     * @param view view.
+     */
     public void saveEntry(View view) {
-//        EditText foodEditText = findViewById(R.id.foodCalorieCountText);
-//        EditText exerciseEditText = findViewById(R.id.exerciseCalorieCountText);
         Spinner foodType = findViewById(R.id.foodCategorySpinner);
         Spinner exerciseType = findViewById(R.id.exerciseCategorySpinner);
         TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
@@ -107,6 +118,18 @@ public class CalculatorActivity extends AppCompatActivity {
         Diary.addEntry(entryString);
 
         Toast.makeText(this, "Added Entry!", Toast.LENGTH_SHORT).show();
+
+        sum += Integer.valueOf(nettTotal.getText().toString());
+        try {
+            avg = sum / Diary.getSize();
+            MainActivity.entryEditor.putInt("avg", avg);
+            MainActivity.entryEditor.apply();
+        }
+        catch (Exception e) {
+            avg = 0;
+            MainActivity.entryEditor.putInt("avg", avg);
+            MainActivity.entryEditor.apply();
+        }
 
         Intent viewEntry = new Intent(getApplicationContext(), DiaryEntryActivity.class);
         viewEntry.putExtra("entry_index", String.valueOf(Diary.getDiaryEntries().indexOf(entryString)));

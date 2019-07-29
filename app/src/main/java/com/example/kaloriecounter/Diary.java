@@ -1,7 +1,6 @@
 package com.example.kaloriecounter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 class Diary {
 
@@ -14,6 +13,10 @@ class Diary {
         return diaryEntries;
     }
 
+    /**
+     * Add an entry to the Diary arraylist.
+     * @param entry the entry to be added to the diary.
+     */
     static void addEntry(String entry) {
         if (diaryEntries == null) {
             diaryEntries = new ArrayList<>();
@@ -22,6 +25,10 @@ class Diary {
         diaryEntries.add(entry);
     }
 
+    /**
+     * Get the number of diary entries in the diary.
+     * @return the size of the arraylist.
+     */
     static int getSize() {
         if (diaryEntries == null) {
             diaryEntries = new ArrayList<>();
@@ -29,13 +36,13 @@ class Diary {
         return diaryEntries.size();
     }
 
+    /**
+     * Clear all the entries in the diary.
+     */
     static void clearEntries() {
         if (diaryEntries != null) {
             diaryEntries.clear();
         }
     }
 
-    public static String toStringCustom() {
-        return Arrays.toString(new ArrayList[]{diaryEntries});
-    }
 }

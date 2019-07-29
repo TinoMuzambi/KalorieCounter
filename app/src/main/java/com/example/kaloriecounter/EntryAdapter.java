@@ -15,8 +15,7 @@ import com.google.gson.Gson;
 import static android.util.Log.d;
 
 public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> {
-    Context parentContext;
-    DiaryEntry diaryEntry;
+    private Context parentContext;
 
     @NonNull
     @Override
@@ -31,10 +30,9 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull EntryAdapter.ViewHolder holder, int position) {
-        d("Tino", "Position: " + position);
         String entry = Diary.getDiaryEntries().get(position); //Extract relevant data.
         Gson gson = new Gson();
-        diaryEntry = gson.fromJson(entry, DiaryEntry.class);
+        DiaryEntry diaryEntry = gson.fromJson(entry, DiaryEntry.class);
         String entryString = diaryEntry.mainToString();
 
         TextView entryRowTextView = holder.entryItem;
@@ -61,11 +59,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
                     viewEntry.setFlags(viewEntry.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                     int pos = getAdapterPosition();
 
-                    // check if item still exists
-                    if(pos != RecyclerView.NO_POSITION){
-//                        RvDataItem clickedDataItem = dataItems.get(pos);
-                    }
-                    viewEntry.putExtra("entry_index", String.valueOf(pos)); //Use entry itself not the index.
+                    viewEntry.putExtra("entry_index", String.valueOf(pos));
                     parentContext.startActivity(viewEntry);
                 }
             });

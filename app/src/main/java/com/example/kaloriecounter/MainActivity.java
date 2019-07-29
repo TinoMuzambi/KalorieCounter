@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +21,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
-    public SharedPreferences.Editor entryEditor;
+    static SharedPreferences sharedPrefs;
+    public static SharedPreferences.Editor entryEditor;
     public EntryAdapter adapter;
 
     @Override
@@ -30,32 +32,40 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Retrieving existing notes
-        SharedPreferences sharedPrefs = getSharedPreferences("diary_entries", Activity.MODE_PRIVATE);
+        // Retrieving existing notes.
+        sharedPrefs = getSharedPreferences("diary_entries", Activity.MODE_PRIVATE);
         entryEditor = sharedPrefs.edit();
 
-        // The brackets are a default value if the key notes can't be found
-        String entriesJSONString = sharedPrefs.getString("entries", "[]");
+        // Retrieving stored average NKI.
+        TextView averageNKI = findViewById(R.id.averageValueTextView);
+        averageNKI.setText(String.valueOf(sharedPrefs.getInt("avg", 0)));
 
+        String entriesJSONString = sharedPrefs.getString("entries", "[]");
         if (Diary.diaryEntries == null) {
             processJsonEntries(entriesJSONString);
         }
 
+        // Setting up RecyclerView and adapter.
         RecyclerView itemListView = findViewById(R.id.itemTextView);
         adapter = new EntryAdapter();
         itemListView.setAdapter(adapter);
         itemListView.setLayoutManager(new LinearLayoutManager(this));
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent calculator = new Intent(getApplicationContext(), CalculatorActivity.class);
-                startActivity(calculator);
-            }
-        });
     }
 
+    /**
+     * Launches the calculator activity.
+     * @param view view.
+     */
+    public void launchCalculator(View view) {
+        Intent calculator = new Intent(getApplicationContext(), CalculatorActivity.class);
+        calculator.setFlags(calculator.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(calculator);
+    }
+
+    /**
+     * Process entries stored in sharedPrefs.
+     * @param entriesJSONString JSON string containing existing entries.
+     */
     private void processJsonEntries(String entriesJSONString) {
         JSONArray entriesJSON = null;
 
@@ -74,14 +84,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Write entries out to sharedPrefs.
+     */
     private void saveEntries() {
         JSONArray jsonEntryList = new JSONArray(Diary.getDiaryEntries());
         entryEditor.putString("entries", jsonEntryList.toString());
         entryEditor.apply();
     }
 
+    /**
+     * Clear all existing entries from sharedPrefs.
+     * @param view view.
+     */
     public void clearEntries(View view) {
         Diary.clearEntries();
+        TextView averageNKI = findViewById(R.id.averageValueTextView);
+        averageNKI.setText("0");
+        CalculatorActivity.sum = 0;
+        CalculatorActivity.avg = 0;
         Toast.makeText(this, "Cleared entries!", Toast.LENGTH_SHORT).show();
         adapter.notifyDataSetChanged();
     }
@@ -96,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         saveEntries();
         adapter.notifyDataSetChanged();
+        TextView averageNKI = findViewById(R.id.averageValueTextView);
+        averageNKI.setText(String.valueOf(sharedPrefs.getInt("avg", 0)));
         super.onStart();
     }
 

@@ -20,4 +20,5 @@
     <string name="sample_total">1500</string>
     <string name="tick_description">Green tick</string>
     <string name="no_entries">No diary entries present.</string>
+    <string name="average">Average Daily NKI:</string>
 </resources>
