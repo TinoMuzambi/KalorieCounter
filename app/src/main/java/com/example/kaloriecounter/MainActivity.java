@@ -19,8 +19,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import static android.util.Log.d;
-
 public class MainActivity extends AppCompatActivity {
     public SharedPreferences.Editor entryEditor;
     public EntryAdapter adapter;
@@ -60,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void processJsonEntries(String entriesJSONString) {
         JSONArray entriesJSON = null;
-        d("Tino", entriesJSONString);
 
         try {
             entriesJSON = new JSONArray(entriesJSONString);
@@ -70,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < entriesJSON.length(); i++) {
             try {
-                d("Tino", (String) entriesJSON.get(i));
                 Diary.addEntry((String) entriesJSON.get(i));
             } catch (JSONException e) {
                 e.printStackTrace();

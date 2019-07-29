@@ -1,6 +1,7 @@
 package com.example.kaloriecounter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 class Diary {
 
@@ -34,4 +35,7 @@ class Diary {
         }
     }
 
+    public static String toStringCustom() {
+        return Arrays.toString(new ArrayList[]{diaryEntries});
+    }
 }

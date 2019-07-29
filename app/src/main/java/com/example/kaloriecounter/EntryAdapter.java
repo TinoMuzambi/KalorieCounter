@@ -10,8 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+
+import static android.util.Log.d;
+
 public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> {
     Context parentContext;
+    DiaryEntry diaryEntry;
 
     @NonNull
     @Override
@@ -26,10 +31,14 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull EntryAdapter.ViewHolder holder, int position) {
-        String entry = Diary.getDiaryEntries().get(position);
+        d("Tino", "Position: " + position);
+        String entry = Diary.getDiaryEntries().get(position); //Extract relevant data.
+        Gson gson = new Gson();
+        diaryEntry = gson.fromJson(entry, DiaryEntry.class);
+        String entryString = diaryEntry.mainToString();
 
         TextView entryRowTextView = holder.entryItem;
-        entryRowTextView.setText(entry); //This is where I choose.
+        entryRowTextView.setText(entryString); //This is where I choose.
     }
 
     @Override
@@ -49,10 +58,14 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     Intent viewEntry = new Intent(parentContext.getApplicationContext(), DiaryEntryActivity.class);
+                    viewEntry.setFlags(viewEntry.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    int pos = getAdapterPosition();
 
-                    String entryText = entryItem.getText().toString();
-                    viewEntry.putExtra("entry_index", Diary.getDiaryEntries().indexOf(entryText));
-
+                    // check if item still exists
+                    if(pos != RecyclerView.NO_POSITION){
+//                        RvDataItem clickedDataItem = dataItems.get(pos);
+                    }
+                    viewEntry.putExtra("entry_index", String.valueOf(pos)); //Use entry itself not the index.
                     parentContext.startActivity(viewEntry);
                 }
             });
