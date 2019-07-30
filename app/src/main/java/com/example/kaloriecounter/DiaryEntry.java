@@ -1,9 +1,12 @@
 package com.example.kaloriecounter;
 
+import android.content.res.Resources;
+
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.util.Date;
+
 
 class DiaryEntry {
 
@@ -26,7 +29,8 @@ class DiaryEntry {
      * @return String containing information needed on the overview activity.
      */
     String mainToString() {
-        return "Entry on " + date + "\nNKI: " + NKI;
+        return Resources.getSystem().getString(R.string.entry_on) + date +
+                "\n" + Resources.getSystem().getString(R.string.nki) + NKI;
     }
 
     /**
@@ -34,9 +38,12 @@ class DiaryEntry {
      * @return String containing more comprehensive information for the Diary activity.
      */
     String detailedToString() {
-        return "Entry on " + date + "\n\nFood:\n" + foodCategory + ": " + foodTotal +
-                "\n\nExercise:\n" + exerciseCategory + ": " + exerciseTotal +
-                "\n\nNKI: " + NKI;
+        return Resources.getSystem().getString(R.string.entry_on) + date + "\n\n" +
+                Resources.getSystem().getString(R.string.food_label) + "\n" +
+                foodCategory + ": " + foodTotal + "\n\n" +
+                Resources.getSystem().getString(R.string.exercise_label) + "\n" +
+                exerciseCategory + ": " + exerciseTotal +
+                "\n\n" + Resources.getSystem().getString(R.string.nki) + NKI;
     }
 
     @Override

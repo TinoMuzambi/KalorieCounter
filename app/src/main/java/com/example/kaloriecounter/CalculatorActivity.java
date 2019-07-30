@@ -32,9 +32,9 @@ public class CalculatorActivity extends AppCompatActivity {
         TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
         TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
         TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
-        foodTotal.setText("0");
-        exerciseTotal.setText("0");
-        nettTotal.setText("0");
+        foodTotal.setText(getString(R.string.zero_string));
+        exerciseTotal.setText(getString(R.string.zero_string));
+        nettTotal.setText(getString(R.string.zero_string));
 
         MainActivity.entryEditor = MainActivity.sharedPrefs.edit();
 
@@ -67,7 +67,7 @@ public class CalculatorActivity extends AppCompatActivity {
             nettTotal.setText(String.valueOf(nettSum));
         }
         else {
-            nettTotal.setText("0");
+            nettTotal.setText(getString(R.string.zero_string));
         }
     }
 
@@ -93,7 +93,7 @@ public class CalculatorActivity extends AppCompatActivity {
             nettTotal.setText(String.valueOf(nettSum));
         }
         else {
-            nettTotal.setText("0");
+            nettTotal.setText(getString(R.string.zero_string));
         }
     }
 
@@ -117,19 +117,24 @@ public class CalculatorActivity extends AppCompatActivity {
         String entryString = gson.toJson(diaryEntry);
         Diary.addEntry(entryString);
 
-        Toast.makeText(this, "Added Entry!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.added_entry), Toast.LENGTH_SHORT).show();
 
         sum += Integer.valueOf(nettTotal.getText().toString());
-        try {
-            avg = sum / Diary.getSize();
-            MainActivity.entryEditor.putInt("avg", avg);
-            MainActivity.entryEditor.apply();
-        }
-        catch (Exception e) {
-            avg = 0;
-            MainActivity.entryEditor.putInt("avg", avg);
-            MainActivity.entryEditor.apply();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    avg = sum / Diary.getSize();
+                    MainActivity.entryEditor.putInt("avg", avg);
+                    MainActivity.entryEditor.apply();
+                }
+                catch (NumberFormatException e) {
+                    avg = 0;
+                    MainActivity.entryEditor.putInt("avg", avg);
+                    MainActivity.entryEditor.apply();
+                }
+            }
+        });
 
         Intent viewEntry = new Intent(getApplicationContext(), DiaryEntryActivity.class);
         viewEntry.putExtra("entry_index", String.valueOf(Diary.getDiaryEntries().indexOf(entryString)));

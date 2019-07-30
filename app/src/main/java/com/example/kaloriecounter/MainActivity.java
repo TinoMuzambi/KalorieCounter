@@ -15,8 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -33,17 +31,26 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Retrieving existing notes.
-        sharedPrefs = getSharedPreferences("diary_entries", Activity.MODE_PRIVATE);
-        entryEditor = sharedPrefs.edit();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sharedPrefs = getSharedPreferences("diary_entries", Activity.MODE_PRIVATE);
+                entryEditor = sharedPrefs.edit();
 
-        // Retrieving stored average NKI.
-        TextView averageNKI = findViewById(R.id.averageValueTextView);
-        averageNKI.setText(String.valueOf(sharedPrefs.getInt("avg", 0)));
+                // Retrieving stored average NKI.
+                TextView averageNKI = findViewById(R.id.averageValueTextView);
+                int storedNKI = sharedPrefs.getInt("avg", 0);
+                averageNKI.setText(String.valueOf(storedNKI));
 
-        String entriesJSONString = sharedPrefs.getString("entries", "[]");
-        if (Diary.diaryEntries == null) {
-            processJsonEntries(entriesJSONString);
-        }
+                String entriesJSONString = sharedPrefs.getString("entries", "[]");
+                if (Diary.diaryEntries == null) {
+                    processJsonEntries(entriesJSONString);
+                }
+
+                CalculatorActivity.avg = storedNKI;
+                CalculatorActivity.sum = storedNKI * Diary.getSize();
+            }
+        });
 
         // Setting up RecyclerView and adapter.
         RecyclerView itemListView = findViewById(R.id.itemTextView);
@@ -88,9 +95,14 @@ public class MainActivity extends AppCompatActivity {
      * Write entries out to sharedPrefs.
      */
     private void saveEntries() {
-        JSONArray jsonEntryList = new JSONArray(Diary.getDiaryEntries());
-        entryEditor.putString("entries", jsonEntryList.toString());
-        entryEditor.apply();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONArray jsonEntryList = new JSONArray(Diary.getDiaryEntries());
+                entryEditor.putString("entries", jsonEntryList.toString());
+                entryEditor.apply();
+            }
+        });
     }
 
     /**
@@ -98,13 +110,18 @@ public class MainActivity extends AppCompatActivity {
      * @param view view.
      */
     public void clearEntries(View view) {
-        Diary.clearEntries();
-        TextView averageNKI = findViewById(R.id.averageValueTextView);
-        averageNKI.setText("0");
-        CalculatorActivity.sum = 0;
-        CalculatorActivity.avg = 0;
-        Toast.makeText(this, "Cleared entries!", Toast.LENGTH_SHORT).show();
-        adapter.notifyDataSetChanged();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Diary.clearEntries();
+                TextView averageNKI = findViewById(R.id.averageValueTextView);
+                averageNKI.setText(getString(R.string.zero_string));
+                CalculatorActivity.sum = 0;
+                CalculatorActivity.avg = 0;
+                adapter.notifyDataSetChanged();
+            }
+        });
+        Toast.makeText(this, getString(R.string.clear_entries), Toast.LENGTH_SHORT).show();
     }
 
     @Override

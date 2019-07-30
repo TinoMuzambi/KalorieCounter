@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_title">Entrées de Journal:</string>
+    <string name="action_settings">Réglages</string>
+    <string name="average">Moyenne Quotidienne ANK</string>
+    <string name="exercise">Exercice</string>
+    <string name="exercise_category_prompt">Choisissez une catégorie d\'exercice:</string>
+    <string name="exercise_label">Exercice:</string>
+    <string name="exercise_total">Exercice Totale:</string>
+    <string name="food">Aliments</string>
+    <string name="food_category_prompt">Choisissez une catégorie de nourriture:</string>
+    <string name="food_label">Aliments:</string>
+    <string name="food_total">Aliments Totale:</string>
+    <string name="kalorie_hint">1000</string>
+    <string name="kalorie_label">Entrez une estimation de calories (kilojoules)</string>
+    <string name="nett">Filet</string>
+    <string name="nett_total">Filet Totale:</string>
+    <string name="no_entries">Aucune entrée de journal présente.</string>
+    <string name="save_entry_button">Enregistrer l\'entrée</string>
+    <string name="tick_description">Coche verte</string>
+    <string name="title_activity_calculator">Calculatrice</string>
+    <string name="total_label">Totaux</string>
+    <string name="sample_total">1500</string>
+    <string name="added_entry">Entrée Ajoutée!</string>
+    <string name="clear_entries">Entrées Effacées!</string>
+    <string name="entry_on">Entrée sur</string>
+    <string name="zero_string">0</string>
+</resources>

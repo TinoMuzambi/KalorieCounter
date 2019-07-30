@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kalorie Counter</string>
+    <string name="app_name" translatable="false">Kalorie Counter</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_calculator">Calculator</string>
     <string name="main_title">Diary Entries:</string>
@@ -21,4 +21,12 @@
     <string name="tick_description">Green tick</string>
     <string name="no_entries">No diary entries present.</string>
     <string name="average">Average Daily NKI:</string>
+    <string name="clear_entries">Cleared entries!</string>
+    <string name="added_entry">Added Entry!</string>
+    <string name="zero_string">0</string>
+    <string name="entry_on">Entry on</string>
+    <string name="nki">NKI:</string>
+    <string name="exception_thrown">Exception thrown!</string>
+    <string name="last_entry">This is the last entry!</string>
+    <string name="first_entry">This is the first entry!</string>
 </resources>

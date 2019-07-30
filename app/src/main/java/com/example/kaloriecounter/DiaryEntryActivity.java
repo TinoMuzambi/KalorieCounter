@@ -1,6 +1,7 @@
 package com.example.kaloriecounter;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ public class DiaryEntryActivity extends AppCompatActivity {
         }
         catch(NumberFormatException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Exception thrown!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, Resources.getSystem().getString(R.string.exception_thrown), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -75,7 +76,7 @@ public class DiaryEntryActivity extends AppCompatActivity {
             text.setText(entryString);
         }
         else {
-            Toast.makeText(this, "This is the last entry!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, Resources.getSystem().getString(R.string.last_entry), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -92,7 +93,7 @@ public class DiaryEntryActivity extends AppCompatActivity {
             text.setText(entryString);
         }
         else {
-            Toast.makeText(this, "This is the first entry!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, Resources.getSystem().getString(R.string.first_entry), Toast.LENGTH_SHORT).show();
         }
     }
 }
