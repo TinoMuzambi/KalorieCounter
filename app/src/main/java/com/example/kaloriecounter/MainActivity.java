@@ -126,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    //TODO Check out wassup with the flags.
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

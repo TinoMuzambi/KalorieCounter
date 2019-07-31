@@ -73,7 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/foodCalorieCountText" />
 
     <View
-        android:id="@+id/horizontalLine3"
+        android:id="@+id/horizontalLine2"
         style="@style/Divider"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
@@ -156,7 +156,7 @@
         android:entries="@array/exercise_categories"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/exerciseCategoryTextView"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalLine3" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontalLine" />
 
     <TextView
         android:id="@+id/totalTextView"
@@ -289,7 +289,7 @@
         android:background="@android:drawable/btn_default_small"
         android:contentDescription="@string/tick_description"
         android:onClick="updateFood"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalLine3"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/foodCalorieCountText"
         app:srcCompat="@drawable/ic_done_black_24dp" />
@@ -307,7 +307,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toEndOf="@+id/exerciseCalorieCountText"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalLine3"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalLine"
         app:srcCompat="@drawable/ic_done_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,4 +29,7 @@
     <string name="exception_thrown">Exception thrown!</string>
     <string name="last_entry">This is the last entry!</string>
     <string name="first_entry">This is the first entry!</string>
+    <string name="confirm_save">Are you sure you want to save this entry?</string>
+    <string name="yes_save">Yes! Save</string>
+    <string name="warning_text">Please enter values for your food and exercise calorie intake.</string>
 </resources>

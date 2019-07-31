@@ -1,5 +1,6 @@
 package com.example.kaloriecounter;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,9 +9,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import static android.util.Log.d;
@@ -102,41 +105,65 @@ public class CalculatorActivity extends AppCompatActivity {
      * @param view view.
      */
     public void saveEntry(View view) {
-        Spinner foodType = findViewById(R.id.foodCategorySpinner);
-        Spinner exerciseType = findViewById(R.id.exerciseCategorySpinner);
-        TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
-        TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
-        TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
+        EditText foodEditText = findViewById(R.id.foodCalorieCountText);
+        EditText exerciseEditText = findViewById(R.id.exerciseCalorieCountText);
+        if ((!(foodEditText.getText().toString().equals(""))) && ((!(exerciseEditText.getText().toString().equals(""))))) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            builder.setTitle(getString(R.string.save_entry_button));
+            builder.setMessage(getString(R.string.confirm_save));
+            builder.setPositiveButton(getString(R.string.yes_save),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Spinner foodType = findViewById(R.id.foodCategorySpinner);
+                            Spinner exerciseType = findViewById(R.id.exerciseCategorySpinner);
+                            TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
+                            TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
+                            TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
 
-        DiaryEntry diaryEntry = new DiaryEntry(Integer.valueOf(foodTotal.getText().toString()),
-                Integer.valueOf(exerciseTotal.getText().toString()),
-                Integer.valueOf(nettTotal.getText().toString()),
-                foodType.getSelectedItem().toString(),
-                exerciseType.getSelectedItem().toString());
-        Gson gson = new Gson();
-        String entryString = gson.toJson(diaryEntry);
-        Diary.addEntry(entryString);
+                            DiaryEntry diaryEntry = new DiaryEntry(Integer.valueOf(foodTotal.getText().toString()),
+                                    Integer.valueOf(exerciseTotal.getText().toString()),
+                                    Integer.valueOf(nettTotal.getText().toString()),
+                                    foodType.getSelectedItem().toString(),
+                                    exerciseType.getSelectedItem().toString());
+                            Gson gson = new Gson();
+                            String entryString = gson.toJson(diaryEntry);
+                            Diary.addEntry(entryString);
 
-        Toast.makeText(this, getString(R.string.added_entry), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.added_entry), Toast.LENGTH_SHORT).show();
 
-        sum += Integer.valueOf(nettTotal.getText().toString());
-        try {
-            avg = sum / Diary.getSize();
-            MainActivity.entryEditor.putString("avg", String.valueOf(avg));
-            MainActivity.entryEditor.apply();
+                            sum += Integer.valueOf(nettTotal.getText().toString());
+                            try {
+                                avg = sum / Diary.getSize();
+                                MainActivity.entryEditor.putString("avg", String.valueOf(avg));
+                                MainActivity.entryEditor.apply();
+                            } catch (NumberFormatException e) {
+                                avg = 0;
+                                MainActivity.entryEditor.putString("avg", String.valueOf(avg));
+                                MainActivity.entryEditor.apply();
+                            }
+
+                            Intent viewEntry = new Intent(getApplicationContext(), DiaryEntryActivity.class);
+                            viewEntry.setFlags(viewEntry.getFlags() | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            viewEntry.putExtra("entry_index", String.valueOf(Diary.getDiaryEntries().indexOf(entryString)));
+                            startActivity(viewEntry);
+
+                            finish();
+                        }
+                    });
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
-        catch (NumberFormatException e) {
-            avg = 0;
-            MainActivity.entryEditor.putString("avg", String.valueOf(avg));
-            MainActivity.entryEditor.apply();
+        else {
+            Snackbar.make(getCurrentFocus(), getString(R.string.warning_text), Snackbar.LENGTH_LONG).show();
         }
-
-        Intent viewEntry = new Intent(getApplicationContext(), DiaryEntryActivity.class);
-        viewEntry.setFlags(viewEntry.getFlags() | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        viewEntry.putExtra("entry_index", String.valueOf(Diary.getDiaryEntries().indexOf(entryString)));
-        startActivity(viewEntry);
-
-        finish();
     }
 
 }
