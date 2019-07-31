@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="food_categories">
-        <item>Breakfast</item>
-        <item>Lunch</item>
-        <item>Dinner</item>
-        <item>Snack</item>
+        <item>Petit déjeuner</item>
+        <item>Le déjeuner</item>
+        <item>Dîner</item>
+        <item>Collation</item>
         <item>Dessert</item>
     </string-array>
 
     <string-array name="exercise_categories">
         <item>Tennis</item>
         <item>Squash</item>
-        <item>Swimming</item>
-        <item>Dance</item>
-        <item>Soccer</item>
-        <item>Jogging</item>
+        <item>Nager</item>
+        <item>Danse</item>
+        <item>Football</item>
+        <item>Le jogging</item>
         <item>Gym</item>
     </string-array>
 </resources>

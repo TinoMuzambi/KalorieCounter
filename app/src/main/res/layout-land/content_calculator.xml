@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="150dp"
+        android:layout_marginEnd="110dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/kalorie_hint"
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="150dp"
+        android:layout_marginEnd="110dp"
         android:ems="10"
         android:hint="@string/kalorie_hint"
         android:importantForAutofill="no"
@@ -143,6 +143,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/exercise_category_prompt"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exerciseTextView" />
 
@@ -151,12 +152,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:entries="@array/exercise_categories"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.449"
         app:layout_constraintStart_toEndOf="@+id/exerciseCategoryTextView"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalLine" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontalLine2" />
 
     <TextView
         android:id="@+id/totalTextView"
@@ -285,12 +287,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="36dp"
         android:background="@android:drawable/btn_default_small"
         android:contentDescription="@string/tick_description"
         android:onClick="updateFood"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalLine"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalLine2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toEndOf="@+id/foodCalorieCountText"
         app:srcCompat="@drawable/ic_done_black_24dp" />
 
@@ -299,15 +302,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="39dp"
         android:layout_marginEnd="16dp"
         android:background="@android:drawable/btn_default_small"
         android:contentDescription="@string/tick_description"
         android:onClick="updateExercise"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toEndOf="@+id/exerciseCalorieCountText"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalLine"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalLine2"
         app:srcCompat="@drawable/ic_done_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,7 +29,7 @@ class DiaryEntry {
      * @return String containing information needed on the overview activity.
      */
     String mainToString(Context context) {
-        return context.getResources().getString(R.string.entry_on) + " " + date +
+        return context.getResources().getString(R.string.entry_on) + date +
                 "\n" + context.getResources().getString(R.string.nki) + NKI;
     }
 
@@ -38,7 +38,7 @@ class DiaryEntry {
      * @return String containing more comprehensive information for the Diary activity.
      */
     String detailedToString(Context context) {
-        return context.getResources().getString(R.string.entry_on) + " " + date + "\n\n" +
+        return context.getResources().getString(R.string.entry_on) + date + "\n\n" +
                 context.getResources().getString(R.string.food_label) + "\n" +
                 foodCategory + ": " + foodTotal + "\n\n" +
                 context.getResources().getString(R.string.exercise_label) + "\n" +
