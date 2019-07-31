@@ -120,23 +120,19 @@ public class CalculatorActivity extends AppCompatActivity {
         Toast.makeText(this, getString(R.string.added_entry), Toast.LENGTH_SHORT).show();
 
         sum += Integer.valueOf(nettTotal.getText().toString());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    avg = sum / Diary.getSize();
-                    MainActivity.entryEditor.putInt("avg", avg);
-                    MainActivity.entryEditor.apply();
-                }
-                catch (NumberFormatException e) {
-                    avg = 0;
-                    MainActivity.entryEditor.putInt("avg", avg);
-                    MainActivity.entryEditor.apply();
-                }
-            }
-        });
+        try {
+            avg = sum / Diary.getSize();
+            MainActivity.entryEditor.putString("avg", String.valueOf(avg));
+            MainActivity.entryEditor.apply();
+        }
+        catch (NumberFormatException e) {
+            avg = 0;
+            MainActivity.entryEditor.putString("avg", String.valueOf(avg));
+            MainActivity.entryEditor.apply();
+        }
 
         Intent viewEntry = new Intent(getApplicationContext(), DiaryEntryActivity.class);
+        viewEntry.setFlags(viewEntry.getFlags() | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         viewEntry.putExtra("entry_index", String.valueOf(Diary.getDiaryEntries().indexOf(entryString)));
         startActivity(viewEntry);
 

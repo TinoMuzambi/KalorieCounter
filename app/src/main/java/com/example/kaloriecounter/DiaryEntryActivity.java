@@ -1,7 +1,6 @@
 package com.example.kaloriecounter;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
-
-import static android.util.Log.d;
 
 public class DiaryEntryActivity extends AppCompatActivity {
 
@@ -34,12 +31,13 @@ public class DiaryEntryActivity extends AppCompatActivity {
             pos = Integer.valueOf(intent.getStringExtra("entry_index"));
 
             String entry = Diary.getDiaryEntries().get(pos);
-            String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString();
+            DiaryEntry diaryEntry = gson.fromJson(entry, DiaryEntry.class);
+            String entryString = diaryEntry.detailedToString(getApplicationContext());
             text.setText(entryString);
         }
         catch(NumberFormatException e) {
             e.printStackTrace();
-            Toast.makeText(this, Resources.getSystem().getString(R.string.exception_thrown), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getApplicationContext().getResources().getString(R.string.exception_thrown), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -49,7 +47,7 @@ public class DiaryEntryActivity extends AppCompatActivity {
      */
     public void launchCalculator(View view) {
         Intent calculator = new Intent(getApplicationContext(), CalculatorActivity.class);
-        calculator.setFlags(calculator.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        calculator.setFlags(calculator.getFlags());
         startActivity(calculator);
     }
 
@@ -59,7 +57,7 @@ public class DiaryEntryActivity extends AppCompatActivity {
      */
     public void goHome(View view) {
         Intent home = new Intent(getApplicationContext(), MainActivity.class);
-        home.setFlags(home.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        home.setFlags(home.getFlags() | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(home);
     }
 
@@ -72,11 +70,11 @@ public class DiaryEntryActivity extends AppCompatActivity {
         if (pos < Diary.getSize() - 1) {
             pos++;
             String entry = Diary.getDiaryEntries().get(pos);
-            String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString();
+            String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString(getApplicationContext());
             text.setText(entryString);
         }
         else {
-            Toast.makeText(this, Resources.getSystem().getString(R.string.last_entry), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getApplicationContext().getResources().getString(R.string.last_entry), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -89,11 +87,16 @@ public class DiaryEntryActivity extends AppCompatActivity {
         if (pos > 0) {
             pos--;
             String entry = Diary.getDiaryEntries().get(pos);
-            String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString();
+            String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString(getApplicationContext());
             text.setText(entryString);
         }
         else {
-            Toast.makeText(this, Resources.getSystem().getString(R.string.first_entry), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getApplicationContext().getResources().getString(R.string.first_entry), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

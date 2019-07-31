@@ -33,7 +33,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
         String entry = Diary.getDiaryEntries().get(position); //Extract relevant data.
         Gson gson = new Gson();
         DiaryEntry diaryEntry = gson.fromJson(entry, DiaryEntry.class);
-        String entryString = diaryEntry.mainToString();
+        String entryString = diaryEntry.mainToString(parentContext.getApplicationContext());
 
         TextView entryRowTextView = holder.entryItem;
         entryRowTextView.setText(entryString); //This is where I choose.

@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import static android.util.Log.d;
+
 public class MainActivity extends AppCompatActivity {
     static SharedPreferences sharedPrefs;
     public static SharedPreferences.Editor entryEditor;
@@ -31,26 +33,21 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Retrieving existing notes.
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                sharedPrefs = getSharedPreferences("diary_entries", Activity.MODE_PRIVATE);
-                entryEditor = sharedPrefs.edit();
+        sharedPrefs = getSharedPreferences("diary_entries", Activity.MODE_PRIVATE);
+        entryEditor = sharedPrefs.edit();
 
-                // Retrieving stored average NKI.
-                TextView averageNKI = findViewById(R.id.averageValueTextView);
-                int storedNKI = sharedPrefs.getInt("avg", 0);
-                averageNKI.setText(String.valueOf(storedNKI));
+        // Retrieving stored average NKI.
+        TextView averageNKI = findViewById(R.id.averageValueTextView);
+        int storedNKI = Integer.valueOf(sharedPrefs.getString("avg", "0"));
+        averageNKI.setText(String.valueOf(storedNKI));
 
-                String entriesJSONString = sharedPrefs.getString("entries", "[]");
-                if (Diary.diaryEntries == null) {
-                    processJsonEntries(entriesJSONString);
-                }
+        String entriesJSONString = sharedPrefs.getString("entries", "[]");
+        if (Diary.diaryEntries == null) {
+            processJsonEntries(entriesJSONString);
+        }
 
-                CalculatorActivity.avg = storedNKI;
-                CalculatorActivity.sum = storedNKI * Diary.getSize();
-            }
-        });
+        CalculatorActivity.avg = storedNKI;
+        CalculatorActivity.sum = storedNKI * Diary.getSize();
 
         // Setting up RecyclerView and adapter.
         RecyclerView itemListView = findViewById(R.id.itemTextView);
@@ -65,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void launchCalculator(View view) {
         Intent calculator = new Intent(getApplicationContext(), CalculatorActivity.class);
-        calculator.setFlags(calculator.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        calculator.setFlags(calculator.getFlags() | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(calculator);
     }
 
@@ -95,14 +92,9 @@ public class MainActivity extends AppCompatActivity {
      * Write entries out to sharedPrefs.
      */
     private void saveEntries() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                JSONArray jsonEntryList = new JSONArray(Diary.getDiaryEntries());
-                entryEditor.putString("entries", jsonEntryList.toString());
-                entryEditor.apply();
-            }
-        });
+        JSONArray jsonEntryList = new JSONArray(Diary.getDiaryEntries());
+        entryEditor.putString("entries", jsonEntryList.toString());
+        entryEditor.apply();
     }
 
     /**
@@ -110,17 +102,12 @@ public class MainActivity extends AppCompatActivity {
      * @param view view.
      */
     public void clearEntries(View view) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Diary.clearEntries();
-                TextView averageNKI = findViewById(R.id.averageValueTextView);
-                averageNKI.setText(getString(R.string.zero_string));
-                CalculatorActivity.sum = 0;
-                CalculatorActivity.avg = 0;
-                adapter.notifyDataSetChanged();
-            }
-        });
+        Diary.clearEntries();
+        TextView averageNKI = findViewById(R.id.averageValueTextView);
+        averageNKI.setText(getString(R.string.zero_string));
+        CalculatorActivity.sum = 0;
+        CalculatorActivity.avg = 0;
+        adapter.notifyDataSetChanged();
         Toast.makeText(this, getString(R.string.clear_entries), Toast.LENGTH_SHORT).show();
     }
 
@@ -135,9 +122,11 @@ public class MainActivity extends AppCompatActivity {
         saveEntries();
         adapter.notifyDataSetChanged();
         TextView averageNKI = findViewById(R.id.averageValueTextView);
-        averageNKI.setText(String.valueOf(sharedPrefs.getInt("avg", 0)));
+        averageNKI.setText(sharedPrefs.getString("avg", "0"));
         super.onStart();
     }
+
+    //TODO Check out wassup with the flags.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

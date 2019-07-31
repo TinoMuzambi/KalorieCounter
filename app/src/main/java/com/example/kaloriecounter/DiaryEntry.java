@@ -1,6 +1,6 @@
 package com.example.kaloriecounter;
 
-import android.content.res.Resources;
+import android.content.Context;
 
 import com.google.gson.Gson;
 
@@ -28,22 +28,22 @@ class DiaryEntry {
      * toString for main overview activity.
      * @return String containing information needed on the overview activity.
      */
-    String mainToString() {
-        return Resources.getSystem().getString(R.string.entry_on) + date +
-                "\n" + Resources.getSystem().getString(R.string.nki) + NKI;
+    String mainToString(Context context) {
+        return context.getResources().getString(R.string.entry_on) + " " + date +
+                "\n" + context.getResources().getString(R.string.nki) + NKI;
     }
 
     /**
      * toString for DiaryEntryActivity activity.
      * @return String containing more comprehensive information for the Diary activity.
      */
-    String detailedToString() {
-        return Resources.getSystem().getString(R.string.entry_on) + date + "\n\n" +
-                Resources.getSystem().getString(R.string.food_label) + "\n" +
+    String detailedToString(Context context) {
+        return context.getResources().getString(R.string.entry_on) + " " + date + "\n\n" +
+                context.getResources().getString(R.string.food_label) + "\n" +
                 foodCategory + ": " + foodTotal + "\n\n" +
-                Resources.getSystem().getString(R.string.exercise_label) + "\n" +
+                context.getResources().getString(R.string.exercise_label) + "\n" +
                 exerciseCategory + ": " + exerciseTotal +
-                "\n\n" + Resources.getSystem().getString(R.string.nki) + NKI;
+                "\n\n" + context.getResources().getString(R.string.nki) + NKI;
     }
 
     @Override
