@@ -37,7 +37,7 @@ public class DiaryEntryActivity extends AppCompatActivity {
         }
         catch(NumberFormatException e) {
             e.printStackTrace();
-            Toast.makeText(this, getApplicationContext().getResources().getString(R.string.exception_thrown), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,     getApplicationContext().getResources().getString(R.string.exception_thrown), Toast.LENGTH_SHORT).show();
         }
     }
 

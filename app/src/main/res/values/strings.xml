@@ -7,8 +7,8 @@
     <string name="exercise_total">Exercise Total:</string>
     <string name="food_total">Food Total:</string>
     <string name="kalorie_label">Enter a calorie estimate (kilojoules)</string>
-    <string name="food_label">Food:</string>
-    <string name="exercise_label">Exercise:</string>
+    <string name="food_label">Your food intake was:</string>
+    <string name="exercise_label">Your exercise added up to:</string>
     <string name="kalorie_hint">1000</string>
     <string name="save_entry_button">Save Entry</string>
     <string name="food_category_prompt">Pick a food category:</string>
@@ -24,8 +24,8 @@
     <string name="clear_entries">Cleared entries!</string>
     <string name="added_entry">Added Entry!</string>
     <string name="zero_string">0</string>
-    <string name="entry_on">Entry on </string>
-    <string name="nki">NKI:</string>
+    <string name="entry_on">Your entry on" "</string>
+    <string name="nki">Your NKI was:" "</string>
     <string name="exception_thrown">Exception thrown!</string>
     <string name="last_entry">This is the last entry!</string>
     <string name="first_entry">This is the first entry!</string>
