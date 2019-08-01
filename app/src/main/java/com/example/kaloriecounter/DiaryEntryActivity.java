@@ -47,7 +47,7 @@ public class DiaryEntryActivity extends AppCompatActivity {
      */
     public void launchCalculator(View view) {
         Intent calculator = new Intent(getApplicationContext(), CalculatorActivity.class);
-        calculator.setFlags(calculator.getFlags());
+        calculator.setFlags(calculator.getFlags() | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(calculator);
     }
 
