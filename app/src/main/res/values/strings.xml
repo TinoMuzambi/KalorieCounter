@@ -33,4 +33,10 @@
     <string name="yes_save">Yes! Save</string>
     <string name="warning_text">Please enter values for your food and exercise calorie intake.</string>
     <string name="updated_entry">Updated Entry!</string>
+    <string name="you_had">You had" "</string>
+    <string name="which_added">" "which added up to" "</string>
+    <string name="calories">" "calories.</string>
+    <string name="then_you">Then you went" "</string>
+    <string name="which_burned">" "which burned" "</string>
+    <string name="leaving_you">" "Leaving you with a NKI of" "</string>
 </resources>

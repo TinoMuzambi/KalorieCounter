@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 
 class DiaryEntry {
@@ -13,6 +14,26 @@ class DiaryEntry {
     int foodTotal, exerciseTotal, NKI;
     String foodCategory, exerciseCategory;
     private String date;
+    private static final HashMap<String, String> foods = new HashMap<>();
+    private static final HashMap<String, String> exercises = new HashMap<>();
+
+    static {
+        foods.put("Breakfast", "breakfast");
+        foods.put("Lunch", "lunch");
+        foods.put("Dinner", "dinner");
+        foods.put("Snack", "a snack");
+        foods.put("Dessert", "dessert");
+    }
+
+    static {
+        exercises.put("Tennis", "for a tennis session");
+        exercises.put("Squash", "for a squash session");
+        exercises.put("Swimming", "swimming");
+        exercises.put("Dance", "dancing");
+        exercises.put("Soccer", "for a soccer game");
+        exercises.put("Jogging", "jogging");
+        exercises.put("Gym", "to the gym");
+    }
 
     DiaryEntry(int foodTotal, int exerciseTotal, int NKI, String foodCategory, String exerciseCategory) {
         this.foodTotal = foodTotal;
@@ -39,11 +60,13 @@ class DiaryEntry {
      */
     String detailedToString(Context context) {
         return context.getResources().getString(R.string.entry_on) + date + "\n\n" +
-                context.getResources().getString(R.string.food_label) + "\n" +
-                foodCategory + ": " + foodTotal + "\n\n" +
-                context.getResources().getString(R.string.exercise_label) + "\n" +
-                exerciseCategory + ": " + exerciseTotal +
-                "\n\n" + context.getResources().getString(R.string.nki) + NKI;
+                context.getResources().getString(R.string.you_had) +
+                foods.get(foodCategory) + context.getResources().getString(R.string.which_added)
+                + foodTotal + context.getResources().getString(R.string.calories)
+                + context.getResources().getString(R.string.then_you)
+                + exercises.get(exerciseCategory) + context.getResources().getString(R.string.which_burned)
+                + exerciseTotal + context.getResources().getString(R.string.calories)
+                + context.getResources().getString(R.string.leaving_you) + NKI + context.getResources().getString(R.string.calories);
     }
 
     @Override

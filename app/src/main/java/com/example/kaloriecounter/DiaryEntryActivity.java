@@ -2,6 +2,8 @@ package com.example.kaloriecounter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,12 +35,31 @@ public class DiaryEntryActivity extends AppCompatActivity {
             String entry = Diary.getDiaryEntries().get(pos);
             DiaryEntry diaryEntry = gson.fromJson(entry, DiaryEntry.class);
             String entryString = diaryEntry.detailedToString(getApplicationContext());
-            text.setText(entryString);
+            text.setText(entryString, TextView.BufferType.SPANNABLE);
+            setColours(text, entryString);
         }
         catch(NumberFormatException e) {
             e.printStackTrace();
             Toast.makeText(this,     getApplicationContext().getResources().getString(R.string.exception_thrown), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * Sets colours of the calorie counts.
+     * @param text the textview whose colours are being manipulated.
+     * @param entryString the text being set to the textview.
+     */
+    private void setColours(TextView text, String entryString) {
+        Spannable foodColour = (Spannable) text.getText();
+        int start = entryString.indexOf("to") + 3;
+        int end = entryString.indexOf("calories");
+        foodColour.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.green)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int start2 = entryString.indexOf("burned") + 7;
+        int end2 = entryString.indexOf("calories", end + 1);
+        foodColour.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.red)), start2, end2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        start = entryString.indexOf("of") + 3;
+        end = entryString.length() - 9;
+        foodColour.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.orange)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     /**
@@ -77,6 +98,7 @@ public class DiaryEntryActivity extends AppCompatActivity {
             String entry = Diary.getDiaryEntries().get(pos);
             String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString(getApplicationContext());
             text.setText(entryString);
+            setColours(text, entryString);
         }
         else {
             Toast.makeText(this, getApplicationContext().getResources().getString(R.string.last_entry), Toast.LENGTH_SHORT).show();
@@ -94,6 +116,7 @@ public class DiaryEntryActivity extends AppCompatActivity {
             String entry = Diary.getDiaryEntries().get(pos);
             String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString(getApplicationContext());
             text.setText(entryString);
+            setColours(text, entryString);
         }
         else {
             Toast.makeText(this, getApplicationContext().getResources().getString(R.string.first_entry), Toast.LENGTH_SHORT).show();
