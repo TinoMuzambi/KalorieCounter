@@ -11,11 +11,9 @@
     <string name="food_category_prompt">Choisissez une catégorie de nourriture:</string>
     <string name="food_label">Aliments:</string>
     <string name="food_total">Aliments Totale:</string>
-    <string name="kalorie_hint">1000</string>
-    <string name="kalorie_label">Entrez une estimation de calories (kilojoules)</string>
+    <string name="kilojoule_hint">1000</string>
     <string name="nett">Filet</string>
     <string name="nett_total">Filet Totale:</string>
-    <string name="no_entries">Aucune entrée de journal présente.</string>
     <string name="save_entry_button">Enregistrer l\'entrée</string>
     <string name="tick_description">Coche verte</string>
     <string name="title_activity_calculator">Calculatrice</string>
@@ -31,6 +29,17 @@
     <string name="first_entry">C\'est la première entrée!</string>
     <string name="confirm_save">Êtes-vous sûr de vouloir sauvegarder cette entrée?</string>
     <string name="yes_save">Oui! Sauvegarder</string>
-    <string name="warning_text">S\'il vous plaît entrer des valeurs pour votre nourriture et votre apport calorique d\'exercice.</string>
+    <string name="warning_text">Veuillez entrer des valeurs pour votre consommation alimentaire et votre consommation de kilojoules d\'exercice.</string>
     <string name="updated_entry">Entrée mise à jour!</string>
+    <string name="kilojoules">" kilojoules."</string>
+    <string name="leaving_you">" Vous laissant avec un ANK de "</string>
+    <string name="then_you">"Ensuite vous êtes allé "</string>
+    <string name="which_added">" qui ont abouti à "</string>
+    <string name="which_burned">" qui a brûlé "</string>
+    <string name="you_had">"Tu avais "</string>
+    <string name="kilojoule_label">Entrez une estimation en kilojoules</string>
+    <string name="burned_strict">brûlé</string>
+    <string name="kilojoules_strict">kilojoules</string>
+    <string name="of_strict">de</string>
+    <string name="to_strict">à</string>
 </resources>

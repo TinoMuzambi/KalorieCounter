@@ -51,14 +51,14 @@ public class DiaryEntryActivity extends AppCompatActivity {
      */
     private void setColours(TextView text, String entryString) {
         Spannable foodColour = (Spannable) text.getText();
-        int start = entryString.indexOf("to") + 3;
-        int end = entryString.indexOf("calories");
+        int start = entryString.indexOf(getString(R.string.to_strict)) + getString(R.string.to_strict).length() + 1;
+        int end = entryString.indexOf(getString(R.string.kilojoules_strict));
         foodColour.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.green)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        int start2 = entryString.indexOf("burned") + 7;
-        int end2 = entryString.indexOf("calories", end + 1);
+        int start2 = entryString.indexOf(getString(R.string.burned_strict)) + getString(R.string.burned_strict).length() + 1;
+        int end2 = entryString.indexOf(getString(R.string.kilojoules_strict), end + 1);
         foodColour.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.red)), start2, end2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        start = entryString.indexOf("of") + 3;
-        end = entryString.length() - 9;
+        start = entryString.indexOf(getString(R.string.of_strict)) + getString(R.string.of_strict).length() + 1;
+        end = entryString.length() - getString(R.string.kilojoules_strict).length() - 1;
         foodColour.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.orange)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 

@@ -62,11 +62,11 @@ class DiaryEntry {
         return context.getResources().getString(R.string.entry_on) + date + "\n\n" +
                 context.getResources().getString(R.string.you_had) +
                 foods.get(foodCategory) + context.getResources().getString(R.string.which_added)
-                + foodTotal + context.getResources().getString(R.string.calories)
+                + foodTotal + context.getResources().getString(R.string.kilojoules)
                 + context.getResources().getString(R.string.then_you)
                 + exercises.get(exerciseCategory) + context.getResources().getString(R.string.which_burned)
-                + exerciseTotal + context.getResources().getString(R.string.calories)
-                + context.getResources().getString(R.string.leaving_you) + NKI + context.getResources().getString(R.string.calories);
+                + exerciseTotal + context.getResources().getString(R.string.kilojoules)
+                + context.getResources().getString(R.string.leaving_you) + NKI + context.getResources().getString(R.string.kilojoules);
     }
 
     @Override
