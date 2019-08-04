@@ -30,22 +30,25 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Retrieving existing notes.
-        sharedPrefs = getSharedPreferences("diary_entries", Activity.MODE_PRIVATE);
-        entryEditor = sharedPrefs.edit();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sharedPrefs = getSharedPreferences("diary_entries", Activity.MODE_PRIVATE);
+                entryEditor = sharedPrefs.edit();
+                // Retrieving stored average NKI.
+                TextView averageNKI = findViewById(R.id.averageValueTextView);
+                int storedNKI = Integer.valueOf(sharedPrefs.getString("avg", "0"));
+                averageNKI.setText(String.valueOf(storedNKI));
 
-        // Retrieving stored average NKI.
-        TextView averageNKI = findViewById(R.id.averageValueTextView);
-        int storedNKI = Integer.valueOf(sharedPrefs.getString("avg", "0"));
-        averageNKI.setText(String.valueOf(storedNKI));
+                String entriesJSONString = sharedPrefs.getString("entries", "[]");
+                if (Diary.diaryEntries == null) {
+                    processJsonEntries(entriesJSONString);
+                }
 
-        String entriesJSONString = sharedPrefs.getString("entries", "[]");
-        if (Diary.diaryEntries == null) {
-            processJsonEntries(entriesJSONString);
-        }
-
-        CalculatorActivity.avg = storedNKI;
-        CalculatorActivity.sum = storedNKI * Diary.getSize();
+                CalculatorActivity.avg = storedNKI;
+                CalculatorActivity.sum = storedNKI * Diary.getSize();
+            }
+        }).start();
 
         // Setting up RecyclerView and adapter.
         RecyclerView itemListView = findViewById(R.id.itemTextView);
@@ -92,9 +95,14 @@ public class MainActivity extends AppCompatActivity {
      * Write entries out to sharedPrefs.
      */
     private void saveEntries() {
-        JSONArray jsonEntryList = new JSONArray(Diary.getDiaryEntries());
-        entryEditor.putString("entries", jsonEntryList.toString());
-        entryEditor.apply();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONArray jsonEntryList = new JSONArray(Diary.getDiaryEntries());
+                entryEditor.putString("entries", jsonEntryList.toString());
+                entryEditor.apply();
+            }
+        }).start();
     }
 
     /**
