@@ -10,8 +10,8 @@ import java.util.Date;
 
 class DiaryEntry {
 
-    private int foodTotal, exerciseTotal, NKI;
-    private String foodCategory, exerciseCategory;
+    int foodTotal, exerciseTotal, NKI;
+    String foodCategory, exerciseCategory;
     private String date;
 
     DiaryEntry(int foodTotal, int exerciseTotal, int NKI, String foodCategory, String exerciseCategory) {

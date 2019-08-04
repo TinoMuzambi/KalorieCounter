@@ -47,6 +47,11 @@ public class DiaryEntryActivity extends AppCompatActivity {
      */
     public void launchCalculator(View view) {
         Intent calculator = new Intent(getApplicationContext(), CalculatorActivity.class);
+        Gson gson = new Gson();
+        String entry = Diary.getDiaryEntries().get(pos);
+        String entryString = gson.fromJson(entry, DiaryEntry.class).detailedToString(getApplicationContext());
+        calculator.putExtra("entry", entryString);
+        calculator.putExtra("pos", String.valueOf(pos));
         calculator.setFlags(calculator.getFlags() | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(calculator);
     }

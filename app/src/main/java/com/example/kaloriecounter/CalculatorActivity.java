@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -16,11 +17,14 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.util.Log.d;
 
 public class CalculatorActivity extends AppCompatActivity {
-    static int avg;
-    static int sum;
+    static int avg, sum, oldSum;
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,19 +32,53 @@ public class CalculatorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calculator);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Initialising text views.
         TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
         TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
         TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
-        foodTotal.setText(getString(R.string.zero_string));
-        exerciseTotal.setText(getString(R.string.zero_string));
-        nettTotal.setText(getString(R.string.zero_string));
+
+        String pos = getIntent().getStringExtra("pos"); // Determining where activity was launched from.
+        if (pos == null) {
+            foodTotal.setText(getString(R.string.zero_string));
+            exerciseTotal.setText(getString(R.string.zero_string));
+            nettTotal.setText(getString(R.string.zero_string));
+        }
+        else {
+            String entry = Diary.getDiaryEntries().get(Integer.valueOf(pos));
+            DiaryEntry diaryEntry = gson.fromJson(entry, DiaryEntry.class);
+            Spinner foodSpinner = findViewById(R.id.foodCategorySpinner);
+            Spinner exerciseSpinner = findViewById(R.id.exerciseCategorySpinner);
+            EditText foodEditText = findViewById(R.id.foodCalorieCountText);
+            EditText exerciseEditText = findViewById(R.id.exerciseCalorieCountText);
+
+            foodSpinner.setSelection(retrieveAllItems(foodSpinner).indexOf(diaryEntry.foodCategory));
+            exerciseSpinner.setSelection(retrieveAllItems(exerciseSpinner).indexOf(diaryEntry.exerciseCategory));
+            foodTotal.setText(String.valueOf(diaryEntry.foodTotal));
+            exerciseTotal.setText(String.valueOf(diaryEntry.exerciseTotal));
+            nettTotal.setText(String.valueOf(diaryEntry.NKI));
+            oldSum = Integer.valueOf(nettTotal.getText().toString());
+            foodEditText.setText(String.valueOf(diaryEntry.foodTotal));
+            exerciseEditText.setText(String.valueOf(diaryEntry.exerciseTotal));
+        }
 
         MainActivity.entryEditor = MainActivity.sharedPrefs.edit();
+    }
 
+    /**
+     * Retrieve all items available in a spinner.
+     * @param spinner the spinner's items needed to be retrieved.
+     * @return a list of the spinner's items.
+     */
+    public List<String> retrieveAllItems(Spinner spinner) {
+        Adapter adapter = spinner.getAdapter();
+        int size = adapter.getCount();
+        List<String> items = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            String item = (String) adapter.getItem(i);
+            items.add(item);
+        }
+        return items;
     }
 
     @Override
@@ -59,8 +97,7 @@ public class CalculatorActivity extends AppCompatActivity {
         TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
 
         try {
-            int foodSum = Integer.valueOf(foodTotal.getText().toString()) + Integer.valueOf(foodEditText.getText().toString());
-            foodTotal.setText(String.valueOf(foodSum));
+            foodTotal.setText(foodEditText.getText().toString());
         }
         catch(Exception e) {
             d("Tino", e.getMessage());
@@ -85,8 +122,7 @@ public class CalculatorActivity extends AppCompatActivity {
         TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
 
         try {
-            int exerciseSum = Integer.valueOf(exerciseTotal.getText().toString()) + Integer.valueOf(exerciseEditText.getText().toString());
-            exerciseTotal.setText(String.valueOf(exerciseSum));
+            exerciseTotal.setText(exerciseEditText.getText().toString());
         }
         catch(Exception e){
             d("Tino", e.getMessage());
@@ -127,21 +163,39 @@ public class CalculatorActivity extends AppCompatActivity {
                                     Integer.valueOf(nettTotal.getText().toString()),
                                     foodType.getSelectedItem().toString(),
                                     exerciseType.getSelectedItem().toString());
-                            Gson gson = new Gson();
                             String entryString = gson.toJson(diaryEntry);
-                            Diary.addEntry(entryString);
 
-                            Toast.makeText(getApplicationContext(), getString(R.string.added_entry), Toast.LENGTH_SHORT).show();
+                            String pos = getIntent().getStringExtra("pos");
+                            if (pos == null) {
+                                Diary.addEntry(entryString);
+                                Toast.makeText(getApplicationContext(), getString(R.string.added_entry), Toast.LENGTH_SHORT).show();
 
-                            sum += Integer.valueOf(nettTotal.getText().toString());
-                            try {
-                                avg = sum / Diary.getSize();
-                                MainActivity.entryEditor.putString("avg", String.valueOf(avg));
-                                MainActivity.entryEditor.apply();
-                            } catch (NumberFormatException e) {
-                                avg = 0;
-                                MainActivity.entryEditor.putString("avg", String.valueOf(avg));
-                                MainActivity.entryEditor.apply();
+                                sum += Integer.valueOf(nettTotal.getText().toString());
+                                try {
+                                    avg = sum / Diary.getSize();
+                                    MainActivity.entryEditor.putString("avg", String.valueOf(avg));
+                                    MainActivity.entryEditor.apply();
+                                } catch (NumberFormatException e) {
+                                    avg = 0;
+                                    MainActivity.entryEditor.putString("avg", String.valueOf(avg));
+                                    MainActivity.entryEditor.apply();
+                                }
+                            }
+                            else {
+                                Diary.getDiaryEntries().set(Integer.valueOf(pos), entryString);
+                                Toast.makeText(getApplicationContext(), getString(R.string.updated_entry), Toast.LENGTH_SHORT).show();
+
+                                sum -= oldSum;
+                                sum += Integer.valueOf(nettTotal.getText().toString());
+                                try {
+                                    avg = sum / Diary.getSize();
+                                    MainActivity.entryEditor.putString("avg", String.valueOf(avg));
+                                    MainActivity.entryEditor.apply();
+                                } catch (NumberFormatException e) {
+                                    avg = 0;
+                                    MainActivity.entryEditor.putString("avg", String.valueOf(avg));
+                                    MainActivity.entryEditor.apply();
+                                }
                             }
 
                             Intent viewEntry = new Intent(getApplicationContext(), DiaryEntryActivity.class);

@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import static android.util.Log.d;
-
 public class MainActivity extends AppCompatActivity {
     static SharedPreferences sharedPrefs;
     public static SharedPreferences.Editor entryEditor;
@@ -79,11 +77,13 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < entriesJSON.length(); i++) {
-            try {
-                Diary.addEntry((String) entriesJSON.get(i));
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if (entriesJSON != null) {
+            for (int i = 0; i < entriesJSON.length(); i++) {
+                try {
+                    Diary.addEntry((String) entriesJSON.get(i));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
