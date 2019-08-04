@@ -3,6 +3,8 @@ package com.example.kaloriecounter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.EditText;
@@ -37,20 +39,22 @@ public class CalculatorActivity extends AppCompatActivity {
         TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
         TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
         TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
+        EditText foodEditText = findViewById(R.id.foodCalorieCountText);
+        EditText exerciseEditText = findViewById(R.id.exerciseCalorieCountText);
+        Spinner foodSpinner = findViewById(R.id.foodCategorySpinner);
+        Spinner exerciseSpinner = findViewById(R.id.exerciseCategorySpinner);
 
         String pos = getIntent().getStringExtra("pos"); // Determining where activity was launched from.
         if (pos == null) {
             foodTotal.setText(getString(R.string.zero_string));
             exerciseTotal.setText(getString(R.string.zero_string));
             nettTotal.setText(getString(R.string.zero_string));
+            updateFood();
+            updateExercise();
         }
         else {
             String entry = Diary.getDiaryEntries().get(Integer.valueOf(pos));
             DiaryEntry diaryEntry = gson.fromJson(entry, DiaryEntry.class);
-            Spinner foodSpinner = findViewById(R.id.foodCategorySpinner);
-            Spinner exerciseSpinner = findViewById(R.id.exerciseCategorySpinner);
-            EditText foodEditText = findViewById(R.id.foodCalorieCountText);
-            EditText exerciseEditText = findViewById(R.id.exerciseCalorieCountText);
 
             foodSpinner.setSelection(retrieveAllItems(foodSpinner).indexOf(diaryEntry.foodCategory));
             exerciseSpinner.setSelection(retrieveAllItems(exerciseSpinner).indexOf(diaryEntry.exerciseCategory));
@@ -63,6 +67,39 @@ public class CalculatorActivity extends AppCompatActivity {
         }
 
         MainActivity.entryEditor = MainActivity.sharedPrefs.edit();
+
+        foodEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateFood();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        exerciseEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateExercise();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     /**
@@ -88,16 +125,21 @@ public class CalculatorActivity extends AppCompatActivity {
 
     /**
      * Update the food total.
-     * @param view view.
      */
-    public void updateFood(View view) {
+    public void updateFood() {
         EditText foodEditText = findViewById(R.id.foodCalorieCountText);
         TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
         TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
         TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
 
         try {
-            foodTotal.setText(foodEditText.getText().toString());
+            String theFood = foodEditText.getText().toString();
+            if (!(theFood.equals(""))) {
+                foodTotal.setText(theFood);
+            }
+            else {
+                foodTotal.setText(getString(R.string.zero_string));
+            }
         }
         catch(Exception e) {
             d("Tino", e.getMessage());
@@ -113,16 +155,21 @@ public class CalculatorActivity extends AppCompatActivity {
 
     /**
      * Update the exercise total.
-     * @param view view.
      */
-    public void updateExercise(View view) {
+    public void updateExercise() {
         EditText exerciseEditText = findViewById(R.id.exerciseCalorieCountText);
         TextView foodTotal = findViewById(R.id.foodNumericTotalTextView);
         TextView exerciseTotal = findViewById(R.id.exerciseNumericTotalTextView);
         TextView nettTotal = findViewById(R.id.nettNumericTotalTextView);
 
         try {
-            exerciseTotal.setText(exerciseEditText.getText().toString());
+            String theExercise = exerciseEditText.getText().toString();
+            if (!(theExercise.equals(""))) {
+                exerciseTotal.setText(theExercise);
+            }
+            else {
+                exerciseTotal.setText(getString(R.string.zero_string));
+            }
         }
         catch(Exception e){
             d("Tino", e.getMessage());

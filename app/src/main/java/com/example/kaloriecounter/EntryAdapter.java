@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
-import static android.util.Log.d;
-
 public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> {
     private Context parentContext;
 
@@ -30,13 +28,13 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull EntryAdapter.ViewHolder holder, int position) {
-        String entry = Diary.getDiaryEntries().get(position); //Extract relevant data.
+        String entry = Diary.getDiaryEntries().get(position);
         Gson gson = new Gson();
         DiaryEntry diaryEntry = gson.fromJson(entry, DiaryEntry.class);
         String entryString = diaryEntry.mainToString(parentContext.getApplicationContext());
 
         TextView entryRowTextView = holder.entryItem;
-        entryRowTextView.setText(entryString); //This is where I choose.
+        entryRowTextView.setText(entryString);
     }
 
     @Override

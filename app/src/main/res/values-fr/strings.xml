@@ -15,7 +15,6 @@
     <string name="nett">Filet</string>
     <string name="nett_total">Filet Totale:</string>
     <string name="save_entry_button">Enregistrer l\'entrée</string>
-    <string name="tick_description">Coche verte</string>
     <string name="title_activity_calculator">Calculatrice</string>
     <string name="total_label">Totaux</string>
     <string name="sample_total">1500</string>
@@ -23,7 +22,7 @@
     <string name="clear_entries">Entrées effacées!</string>
     <string name="entry_on">"Entrée sur "</string>
     <string name="zero_string">0</string>
-    <string name="nki">ANK:</string>
+    <string name="nki">"ANK: "</string>
     <string name="exception_thrown">Exception levée!</string>
     <string name="last_entry">Ceci est la dernière entrée!</string>
     <string name="first_entry">C\'est la première entrée!</string>

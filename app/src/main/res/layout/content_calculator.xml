@@ -280,36 +280,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/verticalLine2" />
 
-    <ImageButton
-        android:id="@+id/updateFoodButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="28dp"
-        android:background="@android:drawable/btn_default_small"
-        android:contentDescription="@string/tick_description"
-        android:onClick="updateFood"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalLine3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/foodCalorieCountText"
-        app:srcCompat="@drawable/ic_done_black_24dp" />
-
-    <ImageButton
-        android:id="@+id/updateExerciseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="16dp"
-        android:background="@android:drawable/btn_default_small"
-        android:contentDescription="@string/tick_description"
-        android:onClick="updateExercise"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/exerciseCalorieCountText"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalLine3"
-        app:srcCompat="@drawable/ic_done_black_24dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
